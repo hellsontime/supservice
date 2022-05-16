@@ -29,6 +29,16 @@ class Ticket implements \JsonSerializable
     private int $support_id;
 
     /**
+     * @ORM\Column(type="string", length=140)
+     */
+    private string $title;
+
+    /**
+     * @ORM\Column(type="text")
+     */
+    private string $description;
+
+    /**
      * @ORM\Column(type="string", length=20)
      */
     private string $status;
@@ -89,6 +99,38 @@ class Ticket implements \JsonSerializable
     /**
      * @return string
      */
+    public function getTitle(): string
+    {
+        return $this->title;
+    }
+
+    /**
+     * @param string $title
+     */
+    public function setTitle(string $title): void
+    {
+        $this->title = $title;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDescription(): string
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param string $description
+     */
+    public function setDescription(string $description): void
+    {
+        $this->description = $description;
+    }
+
+    /**
+     * @return string
+     */
     public function getStatus(): string
     {
         return $this->status;
@@ -142,6 +184,8 @@ class Ticket implements \JsonSerializable
             "ticket_id" => $this->getTicketId(),
             "user_id" => $this->getUserId(),
             "support_id" => $this->getSupportId(),
+            "title" => $this->getTitle(),
+            "description" => $this->getDescription(),
             "status" => $this->getStatus(),
             "create_date" => $this->getCreateDate(),
         ];
