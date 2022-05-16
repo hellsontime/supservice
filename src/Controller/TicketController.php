@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Ticket;
 use App\Service\TicketServiceInterface;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
@@ -16,24 +18,22 @@ use Symfony\Component\Routing\Annotation\Route;
 class TicketController extends BaseController
 {
     private TicketServiceInterface $_ticketService;
-//    private $_tokenStorage;
 
     public function __construct(TicketServiceInterface $ticketService)
     {
         $this->_ticketService = $ticketService;
-//        $this->_tokenStorage = $tokenStorage;
     }
 
     /**
      * @param Request $request
      * @return JsonResponse
-     * @Route("/tickets", name="tickets", methods={"GET"})
+     * @Route("/tickets", name="tickets-get", methods={"GET"})
      */
     public function getUserTickets(Request $request): JsonResponse
     {
         $request = $this->transformJsonBody($request);
 
-        $userId = 1; //TODO: figure out how to get user id from request
+        $userId = 1; //TODO: add authentication and figure out how to get user id from request
 
         return $this->_ticketService->getUserTickets($userId);
     }
@@ -41,12 +41,27 @@ class TicketController extends BaseController
     /**
      * @param Request $request
      * @return JsonResponse
-     * @Route("/tickets", name="tickets", methods={"POST"})
+     * @Route("/tickets", name="tickets-post", methods={"POST"})
      */
     public function createTicket(Request $request): JsonResponse
     {
         $requestBody = $this->getRequestBody($request);
 
-        dd($requestBody['userdata']);
+        return $this->_ticketService->createTicket($requestBody);
+    }
+
+    /**
+     * @param Request $request
+     * @param int $ticketId
+     * @return JsonResponse
+     * @Route("/tickets/{ticketId}", name="ticket-get", methods={"GET"})
+     */
+    public function getUserTicketById(Request $request, int $ticketId): JsonResponse
+    {
+//        $requestBody = $this->getRequestBody($request);
+
+        $userId = 1; //TODO: add authentication and figure out how to get user id from request
+
+        return $this->_ticketService->getUserTicketById($userId, $ticketId);
     }
 }
