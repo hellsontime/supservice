@@ -4,8 +4,9 @@ namespace App\Service;
 
 use App\Repository\TicketRepositoryInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Doctrine\ORM\EntityManagerInterface;
 
-class TicketService implements TicketServiceInterface
+class TicketService extends BaseService implements TicketServiceInterface
 {
     private TicketRepositoryInterface $_ticketRepository;
 
@@ -14,28 +15,30 @@ class TicketService implements TicketServiceInterface
         $this->_ticketRepository = $ticketRepository;
     }
 
-    public function getUserTickets(int $userId)
+    public function getUserTickets(int $userId): JsonResponse
     {
-        $tickets = $this->_ticketRepository->findAll();
+        $tickets = $this->_ticketRepository->getUserTickets($userId);
 
         return $this->response($tickets);
     }
 
-    public function createTicket(array $requestBody)
+    public function createTicket(array $requestBody): JsonResponse
     {
-        // TODO: Implement createTicket() method.
+        $data = $this->_ticketRepository->createTicket($requestBody);
+
+        return $this->response($data);
     }
 
-    /**
-     * Returns a JSON response
-     *
-     * @param array $data
-     * @param int $status
-     * @param array $headers
-     * @return JsonResponse
-     */
-    public function response(array $data, int $status = 200, array $headers = []): JsonResponse
+    public function getUserTicketById(int $userId, int $ticketId): JsonResponse
     {
-        return new JsonResponse($data, $status, $headers);
+        $ticket = $this->_ticketRepository->getUserTicketById($ticketId);
+
+        if (!$ticket || $ticket->getUserId() !== $userId) {
+            return $this->response([
+                'error' => "Ticket not found"
+            ], 404);
+        }
+
+        return $this->response($ticket->jsonSerialize());
     }
 }
