@@ -29,7 +29,7 @@ class TicketController extends BaseController
      * @return JsonResponse
      * @Route("/tickets", name="tickets-get", methods={"GET"})
      */
-    public function getUserTickets(Request $request): JsonResponse
+    public function index(Request $request): JsonResponse
     {
         $request = $this->transformJsonBody($request);
 
@@ -43,7 +43,7 @@ class TicketController extends BaseController
      * @return JsonResponse
      * @Route("/tickets", name="tickets-post", methods={"POST"})
      */
-    public function createTicket(Request $request): JsonResponse
+    public function store(Request $request): JsonResponse
     {
         $requestBody = $this->getRequestBody($request);
 
@@ -56,7 +56,7 @@ class TicketController extends BaseController
      * @return JsonResponse
      * @Route("/tickets/{ticketId}", name="ticket-get", methods={"GET"})
      */
-    public function getUserTicketById(Request $request, int $ticketId): JsonResponse
+    public function show(Request $request, int $ticketId): JsonResponse
     {
 //        $requestBody = $this->getRequestBody($request);
 
