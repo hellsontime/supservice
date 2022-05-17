@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Ticket;
+use App\Requests\StoreTicketRequest;
 use App\Service\TicketServiceInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -39,11 +40,11 @@ class TicketController extends BaseController
     }
 
     /**
-     * @param Request $request
+     * @param StoreTicketRequest $request
      * @return JsonResponse
      * @Route("/tickets", name="tickets-post", methods={"POST"})
      */
-    public function store(Request $request): JsonResponse
+    public function store(StoreTicketRequest $request): JsonResponse
     {
         $requestBody = $this->getRequestBody($request);
 
