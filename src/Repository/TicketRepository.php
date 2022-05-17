@@ -6,6 +6,7 @@ use App\Entity\Ticket;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @method Ticket|null find($id, $lockMode = null, $lockVersion = null)
@@ -41,10 +42,7 @@ class TicketRepository extends ServiceEntityRepository implements TicketReposito
         $this->_em->persist($ticket);
         $this->_em->flush();
 
-        return [
-            'status' => 200,
-            'success' => "Ticket created successfully",
-        ];
+        return ["message" => "Ticket created successfully"];
     }
 
     public function getUserTicketById(int $ticketId)
