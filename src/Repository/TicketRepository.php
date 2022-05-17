@@ -45,7 +45,7 @@ class TicketRepository extends ServiceEntityRepository implements TicketReposito
         ];
     }
 
-    public function getUserTicketById(int $ticketId): Ticket|null
+    public function getUserTicketById(int $ticketId)
     {
         return $this->find($ticketId);
     }
