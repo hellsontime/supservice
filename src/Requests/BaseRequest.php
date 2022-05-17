@@ -46,6 +46,11 @@ abstract class BaseRequest
         return Request::createFromGlobals();
     }
 
+    public function getContent(): string
+    {
+        return json_encode($this->getRequest()->toArray());
+    }
+
     protected function populate(): void
     {
         foreach ($this->getRequest()->toArray() as $property => $value) {
