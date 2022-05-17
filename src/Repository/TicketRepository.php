@@ -34,6 +34,8 @@ class TicketRepository extends ServiceEntityRepository implements TicketReposito
 
         $ticket->setUserId($requestBody['userId']);
         $ticket->setSupportId($requestBody['supportId']);
+        $ticket->setTitle($requestBody['title']);
+        $ticket->setDescription($requestBody['description']);
         $ticket->setStatus($requestBody['status']);
 
         $this->_em->persist($ticket);
