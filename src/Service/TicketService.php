@@ -26,7 +26,7 @@ class TicketService extends BaseService implements TicketServiceInterface
     {
         $data = $this->_ticketRepository->createTicket($requestBody);
 
-        return $this->response($data);
+        return $this->response($data, 201);
     }
 
     public function getUserTicketById(int $userId, int $ticketId): JsonResponse
@@ -35,7 +35,7 @@ class TicketService extends BaseService implements TicketServiceInterface
 
         if (!$ticket || $ticket->getUserId() !== $userId) {
             return $this->response([
-                'error' => "Ticket not found"
+                'message' => "Ticket not found"
             ], 404);
         }
 
