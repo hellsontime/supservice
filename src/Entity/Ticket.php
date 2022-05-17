@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
 /**
  * @ORM\Entity
@@ -11,6 +13,22 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Ticket implements \JsonSerializable
 {
+    #[ORM\OneToMany(targetEntity: Message::class, mappedBy: "ticket")]
+    private $messages;
+
+    public function __construct()
+    {
+        $this->messages = new ArrayCollection();
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getMessages(): Collection
+    {
+        return $this->messages;
+    }
+
     /**
      * @ORM\Column(type="integer")
      * @ORM\Id
