@@ -16,12 +16,9 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class TicketRepository extends ServiceEntityRepository implements TicketRepositoryInterface
 {
-    protected $_em;
-
     public function __construct(ManagerRegistry $registry, EntityManagerInterface $entityManager)
     {
         parent::__construct($registry, Ticket::class);
-        $this->_em = $entityManager;
     }
 
     public function getUserTickets(int $userId): array
@@ -39,8 +36,8 @@ class TicketRepository extends ServiceEntityRepository implements TicketReposito
         $ticket->setDescription($requestBody['description']);
         $ticket->setStatus($requestBody['status']);
 
-        $this->_em->persist($ticket);
-        $this->_em->flush();
+        $this->getEntityManager()->persist($ticket);
+        $this->getEntityManager()->flush();
 
         return ["message" => "Ticket created successfully"];
     }
