@@ -24,9 +24,11 @@ class TicketService extends BaseService implements TicketServiceInterface
 
     public function createTicket(array $requestBody): JsonResponse
     {
-        $data = $this->_ticketRepository->createTicket($requestBody);
+        $this->_ticketRepository->createTicket($requestBody);
 
-        return $this->response($data, 201);
+        return $this->response([
+            "message" => "Ticket created successfully"
+        ], 201);
     }
 
     public function getUserTicketById(int $userId, int $ticketId): JsonResponse
@@ -40,5 +42,43 @@ class TicketService extends BaseService implements TicketServiceInterface
         }
 
         return $this->response($ticket->jsonSerialize());
+    }
+
+    public function updateUserTicket(array $requestBody, int $ticketId): JsonResponse
+    {
+        $ticket = $this->_ticketRepository->findOneBy([
+            'ticket_id' => $ticketId,
+            'user_id' => $requestBody['userId']
+        ]);
+
+        if (!$ticket) {
+            return $this->response([
+                'message' => 'Ticket not found'
+            ], 404);
+        }
+
+        $this->_ticketRepository->updateUserTicket($requestBody, $ticket);
+
+        return $this->response(['message' => 'Ticket successfully updated']);
+    }
+
+    public function deleteUserTicket(int $userId, int $ticketId): JsonResponse
+    {
+        $ticket = $this->_ticketRepository->findOneBy([
+            'ticket_id' => $ticketId,
+            'user_id' => $userId
+        ]);
+
+        if (!$ticket) {
+            return $this->response([
+                'message' => 'Ticket not found'
+            ], 404);
+        }
+
+        $this->_ticketRepository->deleteUserTicket($ticket);
+
+        return $this->response([
+            'message' => 'Ticket successfully deleted'
+        ]);
     }
 }
