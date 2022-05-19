@@ -26,7 +26,7 @@ class TicketRepository extends ServiceEntityRepository implements TicketReposito
         return $this->findBy(['user_id' => $userId]);
     }
 
-    public function createTicket(array $requestBody): array
+    public function createTicket(array $requestBody): void
     {
         $ticket = new Ticket();
 
@@ -38,12 +38,23 @@ class TicketRepository extends ServiceEntityRepository implements TicketReposito
 
         $this->getEntityManager()->persist($ticket);
         $this->getEntityManager()->flush();
-
-        return ["message" => "Ticket created successfully"];
     }
 
-    public function getUserTicketById(int $ticketId)
+    public function getUserTicketById(int $ticketId): Ticket|null
     {
         return $this->find($ticketId);
+    }
+
+    public function updateUserTicket(array $requestBody, Ticket $ticket): void
+    {
+        $ticket->setTitle($requestBody['title']);
+        $ticket->setDescription($requestBody['description']);
+        $this->getEntityManager()->flush();
+    }
+
+    public function deleteUserTicket(Ticket $ticket): void
+    {
+        $this->getEntityManager()->remove($ticket);
+        $this->getEntityManager()->flush();
     }
 }
