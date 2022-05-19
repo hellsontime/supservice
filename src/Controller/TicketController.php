@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Requests\StoreTicketRequest;
+use App\Requests\UpdateTicketRequest;
 use App\Service\TicketServiceInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -60,4 +61,32 @@ class TicketController extends BaseController
 
         return $this->_ticketService->getUserTicketById($userId, $ticketId);
     }
+
+    /**
+     * @param UpdateTicketRequest $request
+     * @param int $ticketId
+     * @return JsonResponse
+     * @Route("/tickets/{ticketId}", name="ticket-put", methods={"PUT"})
+     */
+    public function update(UpdateTicketRequest $request, int $ticketId): JsonResponse
+    {
+        $requestBody = $this->getRequestBody($request);
+        $requestBody['userId'] = $this->_security->getUser()->getUserId();
+
+        return $this->_ticketService->updateUserTicket($requestBody, $ticketId);
+    }
+
+    /**
+     * @param int $ticketId
+     * @return JsonResponse
+     * @Route("/tickets/{ticketId}", name="ticket-delete", methods={"DELETE"})
+     */
+    public function destroy(int $ticketId): JsonResponse
+    {
+        $userId = $this->_security->getUser()->getUserId();
+
+        return $this->_ticketService->deleteUserTicket($userId, $ticketId);
+    }
+
+
 }
