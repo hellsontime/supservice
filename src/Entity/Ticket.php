@@ -13,7 +13,9 @@ use Doctrine\Common\Collections\Collection;
  */
 class Ticket implements \JsonSerializable
 {
-    #[ORM\OneToMany(targetEntity: Message::class, mappedBy: "ticket")]
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Message", mappedBy="ticket")
+     */
     private $messages;
 
     public function __construct()
@@ -22,7 +24,7 @@ class Ticket implements \JsonSerializable
     }
 
     /**
-     * @return Collection
+     * @return Collection|Message[]
      */
     public function getMessages(): Collection
     {
@@ -34,7 +36,7 @@ class Ticket implements \JsonSerializable
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private int $ticket_id;
+    private int $id;
 
     /**
      * @ORM\Column(type="integer")
@@ -69,17 +71,17 @@ class Ticket implements \JsonSerializable
     /**
      * @return int
      */
-    public function getTicketId(): int
+    public function getId(): int
     {
-        return $this->ticket_id;
+        return $this->id;
     }
 
     /**
-     * @param int $ticket_id
+     * @param int $id
      */
-    public function setTicketId(int $ticket_id): void
+    public function setId(int $id): void
     {
-        $this->ticket_id = $ticket_id;
+        $this->id = $id;
     }
 
     /**
@@ -199,7 +201,7 @@ class Ticket implements \JsonSerializable
     public function jsonSerialize(): array
     {
         return [
-            "ticket_id" => $this->getTicketId(),
+            "id" => $this->getId(),
             "user_id" => $this->getUserId(),
             "support_id" => $this->getSupportId(),
             "title" => $this->getTitle(),
