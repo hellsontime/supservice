@@ -2,6 +2,7 @@
 
 namespace App\Requests;
 
+use Symfony\Component\Validator\Constraints\Choice;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Type;
 use Symfony\Component\Validator\Constraints\Length;
@@ -16,4 +17,11 @@ class UpdateTicketRequest extends BaseRequest
     #[Type('string')]
     #[NotBlank()]
     protected string $description;
+
+    #[Choice(
+        choices: ['opened', 'closed', 'frozen'],
+        message: 'Choose a valid status.',
+    )]
+    #[NotBlank()]
+    protected string $status;
 }
