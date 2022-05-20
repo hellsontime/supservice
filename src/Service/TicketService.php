@@ -47,7 +47,7 @@ class TicketService extends BaseService implements TicketServiceInterface
     public function updateUserTicket(array $requestBody, int $ticketId): JsonResponse
     {
         $ticket = $this->_ticketRepository->findOneBy([
-            'ticket_id' => $ticketId,
+            'id' => $ticketId,
             'user_id' => $requestBody['userId']
         ]);
 
