@@ -16,7 +16,7 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class TicketRepository extends ServiceEntityRepository implements TicketRepositoryInterface
 {
-    public function __construct(ManagerRegistry $registry, EntityManagerInterface $entityManager)
+    public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Ticket::class);
     }
@@ -34,7 +34,7 @@ class TicketRepository extends ServiceEntityRepository implements TicketReposito
         $ticket->setSupportId($requestBody['supportId']);
         $ticket->setTitle($requestBody['title']);
         $ticket->setDescription($requestBody['description']);
-        $ticket->setStatus($requestBody['status']);
+        $ticket->setStatus('opened');
 
         $this->getEntityManager()->persist($ticket);
         $this->getEntityManager()->flush();
