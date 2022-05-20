@@ -32,7 +32,7 @@ class TicketController extends BaseController
      */
     public function index(): JsonResponse
     {
-        $userId = $this->_security->getUser()->getUserId();
+        $userId = $this->_security->getUser()->getId();
 
         return $this->_ticketService->getUserTickets($userId);
     }
@@ -45,7 +45,7 @@ class TicketController extends BaseController
     public function store(StoreTicketRequest $request): JsonResponse
     {
         $requestBody = $this->getRequestBody($request);
-        $requestBody['userId'] = $this->_security->getUser()->getUserId();
+        $requestBody['userId'] = $this->_security->getUser()->getId();
 
         return $this->_ticketService->createTicket($requestBody);
     }
@@ -57,7 +57,7 @@ class TicketController extends BaseController
      */
     public function show(int $ticketId): JsonResponse
     {
-        $userId = $this->_security->getUser()->getUserId();
+        $userId = $this->_security->getUser()->getId();
 
         return $this->_ticketService->getUserTicketById($userId, $ticketId);
     }
@@ -71,7 +71,7 @@ class TicketController extends BaseController
     public function update(UpdateTicketRequest $request, int $ticketId): JsonResponse
     {
         $requestBody = $this->getRequestBody($request);
-        $requestBody['userId'] = $this->_security->getUser()->getUserId();
+        $requestBody['userId'] = $this->_security->getUser()->getId();
 
         return $this->_ticketService->updateUserTicket($requestBody, $ticketId);
     }
@@ -83,7 +83,7 @@ class TicketController extends BaseController
      */
     public function destroy(int $ticketId): JsonResponse
     {
-        $userId = $this->_security->getUser()->getUserId();
+        $userId = $this->_security->getUser()->getId();
 
         return $this->_ticketService->deleteUserTicket($userId, $ticketId);
     }
