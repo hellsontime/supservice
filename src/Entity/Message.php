@@ -11,7 +11,9 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Message implements \JsonSerializable
 {
-    #[ORM\ManyToOne(targetEntity: Ticket::class, inversedBy: "message")]
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Ticket", inversedBy="messages")
+     */
     private $ticket;
 
     /**
@@ -37,7 +39,7 @@ class Message implements \JsonSerializable
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private int $message_id;
+    private int $id;
 
     /**
      * @ORM\Column(type="integer")
@@ -57,17 +59,17 @@ class Message implements \JsonSerializable
     /**
      * @return int
      */
-    public function getMessageId(): int
+    public function getId(): int
     {
-        return $this->message_id;
+        return $this->id;
     }
 
     /**
-     * @param int $message_id
+     * @param int $id
      */
-    public function setMessageId(int $message_id): void
+    public function setId(int $id): void
     {
-        $this->message_id = $message_id;
+        $this->id = $id;
     }
 
     /**
@@ -121,7 +123,7 @@ class Message implements \JsonSerializable
     public function jsonSerialize()
     {
         return [
-            "message_id" => $this->getMessageId(),
+            "id" => $this->getId(),
             "ticket_id" => $this->getTicketId(),
             "sender_user_id" => $this->getSenderUserId(),
             "content" => $this->getContent(),
