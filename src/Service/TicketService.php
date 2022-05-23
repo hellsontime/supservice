@@ -35,12 +35,6 @@ class TicketService extends BaseService implements TicketServiceInterface
     {
         $ticket = $this->_ticketRepository->getUserTicketById($ticketId);
 
-        if (!$ticket || $ticket->getUserId() !== $userId) {
-            return $this->response([
-                'message' => "Ticket not found"
-            ], 404);
-        }
-
         return $this->response($ticket->jsonSerialize());
     }
 
@@ -50,12 +44,6 @@ class TicketService extends BaseService implements TicketServiceInterface
             'id' => $ticketId,
             'user_id' => $requestBody['userId']
         ]);
-
-        if (!$ticket) {
-            return $this->response([
-                'message' => 'Ticket not found'
-            ], 404);
-        }
 
         $this->_ticketRepository->updateUserTicket($requestBody, $ticket);
 
@@ -68,12 +56,6 @@ class TicketService extends BaseService implements TicketServiceInterface
             'ticket_id' => $ticketId,
             'user_id' => $userId
         ]);
-
-        if (!$ticket) {
-            return $this->response([
-                'message' => 'Ticket not found'
-            ], 404);
-        }
 
         $this->_ticketRepository->deleteUserTicket($ticket);
 
