@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Requests\StoreTicketMessageRequest;
+use App\Requests\UpdateTicketMessageRequest;
 use App\Service\MessageServiceInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
@@ -57,11 +58,12 @@ class MessageController extends BaseController
     /**
      * @Route("/tickets/{ticketId}/messages/{messageId}", name="messages-put", methods={"PUT"})
      */
-    public function update(int $ticketId, int $messageId)
+    public function update(UpdateTicketMessageRequest $request, int $ticketId, int $messageId)
     {
         $userId = $this->_security->getUser()->getId();
+        $requestBody = $this->getRequestBody($request);
 
-        return $this->_messageService->updateTicketMessage($ticketId, $messageId, $userId);
+        return $this->_messageService->updateTicketMessage($ticketId, $messageId, $userId, $requestBody);
     }
 
     /**
