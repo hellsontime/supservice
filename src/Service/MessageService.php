@@ -50,12 +50,6 @@ class MessageService extends BaseService implements MessageServiceInterface
             'ticket_id' => $ticketId,
         ]);
 
-        if (!$message) {
-            return $this->response([
-                'message' => 'Message not found'
-            ], 404);
-        }
-
         return $this->response($message->jsonSerialize());
     }
 
@@ -65,12 +59,6 @@ class MessageService extends BaseService implements MessageServiceInterface
             'id' => $messageId,
             'ticket_id' => $ticketId,
         ]);
-
-        if (!$message) {
-            return $this->response([
-                'message' => 'Message not found'
-            ], 404);
-        }
 
         $this->_messageRepository->updateTicketMessage($requestBody, $message);
 
@@ -85,12 +73,6 @@ class MessageService extends BaseService implements MessageServiceInterface
             'id' => $messageId,
             'ticket_id' => $ticketId,
         ]);
-
-        if (!$message) {
-            return $this->response([
-                'message' => 'Message not found'
-            ], 404);
-        }
 
         $this->_messageRepository->deleteTicketMessage($message);
 
