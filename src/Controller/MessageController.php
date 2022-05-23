@@ -25,7 +25,8 @@ class MessageController extends BaseController
     }
 
     /**
-     * @Route("/tickets/{ticketId}/messages", name="messages-get", methods={"GET"})
+     * @param int $ticketId
+     * @return mixed
      */
     public function index(int $ticketId)
     {
@@ -35,7 +36,9 @@ class MessageController extends BaseController
     }
 
     /**
-     * @Route("/tickets/{ticketId}/messages", name="messages-post", methods={"POST"})
+     * @param StoreTicketMessageRequest $request
+     * @param int $ticketId
+     * @return mixed
      */
     public function store(StoreTicketMessageRequest $request, int $ticketId)
     {
@@ -46,7 +49,9 @@ class MessageController extends BaseController
     }
 
     /**
-     * @Route("/tickets/{ticketId}/messages/{messageId}", name="message-get", methods={"GET"})
+     * @param int $ticketId
+     * @param int $messageId
+     * @return mixed
      */
     public function show(int $ticketId, int $messageId)
     {
@@ -56,7 +61,10 @@ class MessageController extends BaseController
     }
 
     /**
-     * @Route("/tickets/{ticketId}/messages/{messageId}", name="messages-put", methods={"PUT"})
+     * @param UpdateTicketMessageRequest $request
+     * @param int $ticketId
+     * @param int $messageId
+     * @return mixed
      */
     public function update(UpdateTicketMessageRequest $request, int $ticketId, int $messageId)
     {
@@ -67,7 +75,9 @@ class MessageController extends BaseController
     }
 
     /**
-     * @Route("/tickets/{ticketId}/messages/{messageId}", name="message-delete", methods={"DELETE"})
+     * @param int $ticketId
+     * @param int $messageId
+     * @return mixed
      */
     public function destroy(int $ticketId, int $messageId)
     {

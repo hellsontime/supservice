@@ -4,3 +4,58 @@
 
 auth-login:
   path: /api/login
+
+auth-register:
+  path: /api/register
+  controller: App\Controller\AuthController::register
+  methods: POST
+
+ticket-index:
+  path: /api/tickets
+  controller: App\Controller\TicketController::index
+  methods: GET
+
+ticket-store:
+  path: /api/tickets
+  controller: App\Controller\TicketController::store
+  methods: POST
+
+ticket-show:
+  path: /api/tickets/{ticketId}
+  controller: App\Controller\TicketController::show
+  methods: GET
+
+ticket-update:
+  path: /api/tickets/{ticketId}
+  controller: App\Controller\TicketController::update
+  methods: PUT
+
+ticket-destroy:
+  path: /api/tickets/{ticketId}
+  controller: App\Controller\TicketController::destroy
+  methods: DELETE
+
+message-index:
+  path: /api/tickets/{ticketId}/messages
+  controller: App\Controller\MessageController::index
+  methods: GET
+
+message-store:
+  path: /api/tickets/{ticketId}/messages
+  controller: App\Controller\MessageController::store
+  methods: POST
+
+message-show:
+  path: /api/tickets/{ticketId}/messages/{messageId}
+  controller: App\Controller\MessageController::show
+  methods: GET
+
+message-update:
+  path: /api/tickets/{ticketId}/messages/{messageId}
+  controller: App\Controller\MessageController::update
+  methods: PUT
+
+message-destroy:
+  path: /api/tickets/{ticketId}/messages/{messageId}
+  controller: App\Controller\MessageController::destroy
+  methods: DELETE

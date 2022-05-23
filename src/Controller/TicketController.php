@@ -13,7 +13,6 @@ use Symfony\Component\Security\Core\Security;
 /**
  * Class TicketController
  * @package App\Controller
- * @Route("/api")
  */
 class TicketController extends BaseController
 {
@@ -28,7 +27,6 @@ class TicketController extends BaseController
 
     /**
      * @return JsonResponse
-     * @Route("/tickets", name="tickets-get", methods={"GET"})
      */
     public function index(): JsonResponse
     {
@@ -40,7 +38,6 @@ class TicketController extends BaseController
     /**
      * @param StoreTicketRequest $request
      * @return JsonResponse
-     * @Route("/tickets", name="tickets-post", methods={"POST"})
      */
     public function store(StoreTicketRequest $request): JsonResponse
     {
@@ -53,7 +50,6 @@ class TicketController extends BaseController
     /**
      * @param int $ticketId
      * @return JsonResponse
-     * @Route("/tickets/{ticketId}", name="ticket-get", methods={"GET"})
      */
     public function show(int $ticketId): JsonResponse
     {
@@ -66,7 +62,6 @@ class TicketController extends BaseController
      * @param UpdateTicketRequest $request
      * @param int $ticketId
      * @return JsonResponse
-     * @Route("/tickets/{ticketId}", name="ticket-put", methods={"PUT"})
      */
     public function update(UpdateTicketRequest $request, int $ticketId): JsonResponse
     {
@@ -79,7 +74,6 @@ class TicketController extends BaseController
     /**
      * @param int $ticketId
      * @return JsonResponse
-     * @Route("/tickets/{ticketId}", name="ticket-delete", methods={"DELETE"})
      */
     public function destroy(int $ticketId): JsonResponse
     {
