@@ -35,6 +35,11 @@ ticket-destroy:
   controller: App\Controller\TicketController::destroy
   methods: DELETE
 
+status-update:
+  path: /api/tickets/{ticketId}/status
+  controller: App\Controller\TicketStatusController::update
+  methods: PUT
+
 message-index:
   path: /api/tickets/{ticketId}/messages
   controller: App\Controller\MessageController::index
