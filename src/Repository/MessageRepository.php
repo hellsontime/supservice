@@ -40,8 +40,9 @@ class MessageRepository extends ServiceEntityRepository implements MessageReposi
         $this->getEntityManager()->flush();
     }
 
-    public function deleteTicketMessage(int $ticketId, int $messageId, int $userId)
+    public function deleteTicketMessage(Message $message)
     {
-        // TODO: Implement deleteTicketMessage() method.
+        $this->getEntityManager()->remove($message);
+        $this->getEntityManager()->flush();
     }
 }
