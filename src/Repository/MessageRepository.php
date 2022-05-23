@@ -33,11 +33,6 @@ class MessageRepository extends ServiceEntityRepository implements MessageReposi
         $this->getEntityManager()->flush();
     }
 
-    public function getTicketMessageById(int $ticketId, int $messageId, int $userId)
-    {
-        // TODO: Implement getTicketMessageById() method.
-    }
-
     public function updateTicketMessage(int $ticketId, int $messageId, int $userId, array $requestBody)
     {
         // TODO: Implement updateTicketMessage() method.
