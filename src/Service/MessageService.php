@@ -57,7 +57,29 @@ class MessageService extends BaseService implements MessageServiceInterface
 
     public function getTicketMessageById(int $ticketId, int $messageId, int $userId): JsonResponse
     {
-        // TODO: Implement getTicketMessageById() method.
+        $ticket = $this->_ticketRepository->findOneBy([
+            'id' => $ticketId,
+            'user_id' => $userId,
+        ]);
+
+        if (!$ticket) {
+            return $this->response([
+                'message' => 'Ticket not found'
+            ], 404);
+        }
+
+        $message = $this->_messageRepository->findOneBy([
+            'id' => $messageId,
+            'ticket_id' => $ticketId,
+        ]);
+
+        if (!$message) {
+            return $this->response([
+                'message' => 'Message not found'
+            ], 404);
+        }
+
+        return $this->response($message->jsonSerialize());
     }
 
     public function updateTicketMessage(int $ticketId, int $messageId, int $userId, array $requestBody): JsonResponse
