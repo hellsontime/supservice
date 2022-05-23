@@ -24,12 +24,6 @@ class MessageService extends BaseService implements MessageServiceInterface
             'user_id' => $userId,
         ]);
 
-        if (!$ticket) {
-            return $this->response([
-                'message' => 'Ticket not found'
-            ], 404);
-        }
-
         $data = $ticket->getMessages()->toArray();
 
         return $this->response($data);
@@ -42,12 +36,6 @@ class MessageService extends BaseService implements MessageServiceInterface
             'user_id' => $userId,
         ]);
 
-        if (!$ticket) {
-            return $this->response([
-                'message' => 'Ticket not found'
-            ], 404);
-        }
-
         $this->_messageRepository->createTicketMessage($ticketId, $userId, $requestBody, $ticket);
 
         return $this->response([
@@ -57,17 +45,6 @@ class MessageService extends BaseService implements MessageServiceInterface
 
     public function getTicketMessageById(int $ticketId, int $messageId, int $userId): JsonResponse
     {
-        $ticket = $this->_ticketRepository->findOneBy([
-            'id' => $ticketId,
-            'user_id' => $userId,
-        ]);
-
-        if (!$ticket) {
-            return $this->response([
-                'message' => 'Ticket not found'
-            ], 404);
-        }
-
         $message = $this->_messageRepository->findOneBy([
             'id' => $messageId,
             'ticket_id' => $ticketId,
@@ -84,17 +61,6 @@ class MessageService extends BaseService implements MessageServiceInterface
 
     public function updateTicketMessage(int $ticketId, int $messageId, int $userId, array $requestBody): JsonResponse
     {
-        $ticket = $this->_ticketRepository->findOneBy([
-            'id' => $ticketId,
-            'user_id' => $userId,
-        ]);
-
-        if (!$ticket) {
-            return $this->response([
-                'message' => 'Ticket not found'
-            ], 404);
-        }
-
         $message = $this->_messageRepository->findOneBy([
             'id' => $messageId,
             'ticket_id' => $ticketId,
@@ -115,17 +81,6 @@ class MessageService extends BaseService implements MessageServiceInterface
 
     public function deleteTicketMessage(int $ticketId, int $messageId, int $userId): JsonResponse
     {
-        $ticket = $this->_ticketRepository->findOneBy([
-            'id' => $ticketId,
-            'user_id' => $userId,
-        ]);
-
-        if (!$ticket) {
-            return $this->response([
-                'message' => 'Ticket not found'
-            ], 404);
-        }
-
         $message = $this->_messageRepository->findOneBy([
             'id' => $messageId,
             'ticket_id' => $ticketId,
