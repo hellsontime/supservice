@@ -5,6 +5,7 @@ namespace App\Event;
 use App\Repository\TicketRepositoryInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\Security\Core\Security;
 
 class EnsureTicketBelongsToUser implements EventSubscriberInterface
@@ -25,12 +26,8 @@ class EnsureTicketBelongsToUser implements EventSubscriberInterface
         ];
     }
 
-    public function onKernelRequest($event)
+    public function onKernelRequest(RequestEvent $event)
     {
-        if (!$event->isMasterRequest()) { // Обрабатываем только основной request
-            return;                       // Игнорируем forward и render controller в твиге
-        }
-
         $handleRoutes = [
             'ticket-show',
             'ticket-update',
