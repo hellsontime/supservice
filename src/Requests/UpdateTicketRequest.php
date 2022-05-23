@@ -17,11 +17,4 @@ class UpdateTicketRequest extends BaseRequest
     #[Type('string')]
     #[NotBlank()]
     protected string $description;
-
-    #[Choice(
-        choices: ['opened', 'closed', 'frozen'],
-        message: 'Choose a valid status.',
-    )]
-    #[NotBlank()]
-    protected string $status;
 }
