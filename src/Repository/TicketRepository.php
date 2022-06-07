@@ -21,16 +21,6 @@ class TicketRepository extends ServiceEntityRepository implements TicketReposito
         parent::__construct($registry, Ticket::class);
     }
 
-    public function getUserTickets(int $userId): array
-    {
-        return $this->findBy(['user_id' => $userId]);
-    }
-
-    public function getSupportTickets(int $supportId): array
-    {
-        return $this->findBy(['support_id' => $supportId]);
-    }
-
     public function createTicket(array $requestBody): void
     {
         $ticket = new Ticket();
@@ -43,11 +33,6 @@ class TicketRepository extends ServiceEntityRepository implements TicketReposito
 
         $this->getEntityManager()->persist($ticket);
         $this->getEntityManager()->flush();
-    }
-
-    public function getUserTicketById(int $ticketId): Ticket|null
-    {
-        return $this->find($ticketId);
     }
 
     public function updateUserTicket(array $requestBody, Ticket $ticket): void
