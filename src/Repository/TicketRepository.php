@@ -26,6 +26,11 @@ class TicketRepository extends ServiceEntityRepository implements TicketReposito
         return $this->findBy(['user_id' => $userId]);
     }
 
+    public function getSupportTickets(int $supportId): array
+    {
+        return $this->findBy(['support_id' => $supportId]);
+    }
+
     public function createTicket(array $requestBody): void
     {
         $ticket = new Ticket();
@@ -56,5 +61,17 @@ class TicketRepository extends ServiceEntityRepository implements TicketReposito
     {
         $this->getEntityManager()->remove($ticket);
         $this->getEntityManager()->flush();
+    }
+
+    public function countSupportOpenedTickets(int $supportId, string $status = 'opened'): int|null
+    {
+        $qb = $this->createQueryBuilder('t');
+        $qb->select('count(t)')
+            ->where('t.support_id = :supportId')
+            ->andWhere('t.status = :status')
+            ->setParameter('supportId', $supportId)
+            ->setParameter('status', $status);
+
+        return $qb->getQuery()->getSingleScalarResult();
     }
 }
