@@ -25,6 +25,7 @@ class TicketStatusService extends BaseService implements TicketStatusServiceInte
         }
 
         $ticket = $this->_ticketStatusRepository->findOneBy([
+            'id' => $ticketId,
             'support_id' => $user->getId(),
         ]);
 
