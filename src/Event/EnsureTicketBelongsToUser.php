@@ -22,21 +22,16 @@ class EnsureTicketBelongsToUser implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            \Symfony\Component\HttpKernel\KernelEvents::REQUEST => 'onKernelRequest',
+            \Symfony\Component\HttpKernel\KernelEvents::REQUEST => ['onKernelRequest', -5],
         ];
     }
 
     public function onKernelRequest(RequestEvent $event)
     {
         $handleRoutes = [
-            'ticket-show',
-            'ticket-update',
-            'ticket-destroy',
-            'message-index',
-            'message-store',
-            'message-show',
-            'message-update',
-            'message-destroy',
+            'user-ticket-show',
+            'user-ticket-update',
+            'user-ticket-destroy',
         ];
 
         $request = $event->getRequest();
