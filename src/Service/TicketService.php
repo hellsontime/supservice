@@ -3,16 +3,18 @@
 namespace App\Service;
 
 use App\Repository\TicketRepositoryInterface;
+use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Doctrine\ORM\EntityManagerInterface;
 
 class TicketService extends BaseService implements TicketServiceInterface
 {
     private TicketRepositoryInterface $_ticketRepository;
+    private UserRepository $_userRepository;
 
-    public function __construct(TicketRepositoryInterface $ticketRepository)
+    public function __construct(TicketRepositoryInterface $ticketRepository, UserRepository $userRepository)
     {
         $this->_ticketRepository = $ticketRepository;
+        $this->_userRepository = $userRepository;
     }
 
     public function getUserTickets(int $userId): JsonResponse
@@ -22,8 +24,25 @@ class TicketService extends BaseService implements TicketServiceInterface
         return $this->response($tickets);
     }
 
+    public function getSupportTickets(int $supportId): JsonResponse
+    {
+        $tickets = $this->_ticketRepository->getSupportTickets($supportId);
+
+        return $this->response($tickets);
+    }
+
     public function createTicket(array $requestBody): JsonResponse
     {
+        $supportId = $this->getFreeSupport();
+
+        if (!$supportId) {
+            return $this->response([
+                'message' => 'No supports available now'
+            ], 403);
+        }
+
+        $requestBody['supportId'] = $supportId;
+
         $this->_ticketRepository->createTicket($requestBody);
 
         return $this->response([
@@ -62,5 +81,29 @@ class TicketService extends BaseService implements TicketServiceInterface
         return $this->response([
             'message' => 'Ticket successfully deleted'
         ]);
+    }
+
+    /**
+     * @return int|null
+     * description: method to get a support with less opened tickets
+     */
+    private function getFreeSupport(): int|null
+    {
+        $supports = $this->_userRepository->findUsersByRole('ROLE_SUPPORT');
+
+        if (!$supports) {
+            return null;
+        }
+
+        $arr = [];
+
+        foreach ($supports as $support) {
+            $supportId = $support->getId();
+            $arr[$supportId] = $this->_ticketRepository->countSupportOpenedTickets($supportId);
+        }
+
+        asort($arr);
+
+        return  array_key_first($arr);
     }
 }
