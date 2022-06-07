@@ -31,6 +31,11 @@ class TicketController extends BaseController
     public function index(): JsonResponse
     {
         $userId = $this->_security->getUser()->getId();
+        $userRoles = $this->_security->getUser()->getRoles();
+
+        if (in_array('ROLE_SUPPORT', $userRoles)) {
+            return $this->_ticketService->getSupportTickets($userId);
+        }
 
         return $this->_ticketService->getUserTickets($userId);
     }
