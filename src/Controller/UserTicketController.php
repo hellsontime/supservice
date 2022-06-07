@@ -4,22 +4,20 @@ namespace App\Controller;
 
 use App\Requests\StoreTicketRequest;
 use App\Requests\UpdateTicketRequest;
-use App\Service\TicketServiceInterface;
+use App\Service\UserTicketServiceInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
 
 /**
- * Class TicketController
+ * Class UserTicketController
  * @package App\Controller
  */
-class TicketController extends BaseController
+class UserTicketController extends BaseController
 {
-    private TicketServiceInterface $_ticketService;
+    private UserTicketServiceInterface $_ticketService;
     private Security $_security;
 
-    public function __construct(TicketServiceInterface $ticketService, Security $security)
+    public function __construct(UserTicketServiceInterface $ticketService, Security $security)
     {
         $this->_ticketService = $ticketService;
         $this->_security = $security;
@@ -31,11 +29,6 @@ class TicketController extends BaseController
     public function index(): JsonResponse
     {
         $userId = $this->_security->getUser()->getId();
-        $userRoles = $this->_security->getUser()->getRoles();
-
-        if (in_array('ROLE_SUPPORT', $userRoles)) {
-            return $this->_ticketService->getSupportTickets($userId);
-        }
 
         return $this->_ticketService->getUserTickets($userId);
     }
@@ -58,9 +51,7 @@ class TicketController extends BaseController
      */
     public function show(int $ticketId): JsonResponse
     {
-        $userId = $this->_security->getUser()->getId();
-
-        return $this->_ticketService->getUserTicketById($userId, $ticketId);
+        return $this->_ticketService->getUserTicketById($ticketId);
     }
 
     /**
