@@ -7,7 +7,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\Security\Core\Security;
 
-class EnsureSupportDoNotCreateTicket implements EventSubscriberInterface
+class EnsureUserIsNotSupport implements EventSubscriberInterface
 {
     private Security $_security;
 
@@ -19,14 +19,18 @@ class EnsureSupportDoNotCreateTicket implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            \Symfony\Component\HttpKernel\KernelEvents::REQUEST => 'onKernelRequest',
+            \Symfony\Component\HttpKernel\KernelEvents::REQUEST => ['onKernelRequest', 0],
         ];
     }
 
     public function onKernelRequest(RequestEvent $event)
     {
         $handleRoutes = [
-            'ticket-store',
+            'user-ticket-index',
+            'user-ticket-store',
+            'user-ticket-show',
+            'user-ticket-update',
+            'user-ticket-destroy',
         ];
 
         $request = $event->getRequest();
@@ -36,7 +40,9 @@ class EnsureSupportDoNotCreateTicket implements EventSubscriberInterface
             $userRoles = $this->_security->getUser()->getRoles();
 
             if (in_array('ROLE_SUPPORT', $userRoles)) {
-                $event->setResponse(new JsonResponse(['message' => 'You cannot create a ticket as the support'], 403));
+                $event->setResponse(new JsonResponse([
+                    'message' => 'You don\'t have permissions to access this route'
+                ], 403));
             }
         }
     }
