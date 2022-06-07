@@ -8,7 +8,7 @@ services:
             dockerfile: Dockerfile
         image: supservice-core
         container_name: supservice-core
-        command: bash -c "php artisan migrate && php-fpm"
+        command: bash -c "php bin/console cache:clear && php bin/console doctrine:schema:update --force && php-fpm"
         restart: unless-stopped
         tty: true
         env_file:
