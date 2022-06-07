@@ -6,7 +6,7 @@ use App\Repository\TicketRepositoryInterface;
 use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
-class TicketService extends BaseService implements TicketServiceInterface
+class UserTicketService extends BaseService implements UserTicketServiceInterface
 {
     private TicketRepositoryInterface $_ticketRepository;
     private UserRepository $_userRepository;
@@ -19,14 +19,7 @@ class TicketService extends BaseService implements TicketServiceInterface
 
     public function getUserTickets(int $userId): JsonResponse
     {
-        $tickets = $this->_ticketRepository->getUserTickets($userId);
-
-        return $this->response($tickets);
-    }
-
-    public function getSupportTickets(int $supportId): JsonResponse
-    {
-        $tickets = $this->_ticketRepository->getSupportTickets($supportId);
+        $tickets = $this->_ticketRepository->findBy(['user_id' => $userId]);
 
         return $this->response($tickets);
     }
@@ -50,9 +43,9 @@ class TicketService extends BaseService implements TicketServiceInterface
         ], 201);
     }
 
-    public function getUserTicketById(int $userId, int $ticketId): JsonResponse
+    public function getUserTicketById(int $ticketId): JsonResponse
     {
-        $ticket = $this->_ticketRepository->getUserTicketById($ticketId);
+        $ticket = $this->_ticketRepository->find($ticketId);
 
         return $this->response($ticket->jsonSerialize());
     }
