@@ -21,7 +21,6 @@ class MessageService extends BaseService implements MessageServiceInterface
     {
         $ticket = $this->_ticketRepository->findOneBy([
             'id' => $ticketId,
-            'user_id' => $userId,
         ]);
 
         $data = $ticket->getMessages()->toArray();
@@ -33,7 +32,6 @@ class MessageService extends BaseService implements MessageServiceInterface
     {
         $ticket = $this->_ticketRepository->findOneBy([
             'id' => $ticketId,
-            'user_id' => $userId,
         ]);
 
         $this->_messageRepository->createTicketMessage($ticketId, $userId, $requestBody, $ticket);
@@ -47,7 +45,6 @@ class MessageService extends BaseService implements MessageServiceInterface
     {
         $message = $this->_messageRepository->findOneBy([
             'id' => $messageId,
-            'ticket_id' => $ticketId,
         ]);
 
         return $this->response($message->jsonSerialize());
@@ -57,8 +54,13 @@ class MessageService extends BaseService implements MessageServiceInterface
     {
         $message = $this->_messageRepository->findOneBy([
             'id' => $messageId,
-            'ticket_id' => $ticketId,
         ]);
+
+        if ($message->getSenderUserId() !== $userId) {
+            return $this->response([
+                'message' => 'You cannot update this message'
+            ], 403);
+        }
 
         $this->_messageRepository->updateTicketMessage($requestBody, $message);
 
@@ -71,8 +73,13 @@ class MessageService extends BaseService implements MessageServiceInterface
     {
         $message = $this->_messageRepository->findOneBy([
             'id' => $messageId,
-            'ticket_id' => $ticketId,
         ]);
+
+        if ($message->getSenderUserId() !== $userId) {
+            return $this->response([
+                'message' => 'You cannot delete this message'
+            ], 403);
+        }
 
         $this->_messageRepository->deleteTicketMessage($message);
 
