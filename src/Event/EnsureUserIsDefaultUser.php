@@ -7,7 +7,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\Security\Core\Security;
 
-class EnsureUserIsNotSupport implements EventSubscriberInterface
+class EnsureUserIsDefaultUser implements EventSubscriberInterface
 {
     private Security $_security;
 
