@@ -8,7 +8,8 @@ use Doctrine\Persistence\ObjectManager;
 abstract class BaseFixture extends Fixture
 {
     /** @var ObjectManager */
-    private $manager;
+    private ObjectManager $manager;
+
     abstract protected function loadData(ObjectManager $manager);
 
     public function load(ObjectManager $manager)
@@ -24,7 +25,7 @@ abstract class BaseFixture extends Fixture
             $factory($entity, $i);
             $this->manager->persist($entity);
             // store for usage later as App\Entity\ClassName_#COUNT#
-            $this->addReference($className . '_' . $i, $entity);
+            $this->setReference($className . '_' . $i, $entity);
         }
     }
 }
