@@ -8,7 +8,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Faker\Factory;
 use Faker\Generator;
 
-class UserFixtures extends BaseFixture
+class F0_UserFixtures extends BaseFixture
 {
     private UserPasswordHasherInterface $_userPasswordHasher;
     private Generator $faker;
@@ -21,9 +21,9 @@ class UserFixtures extends BaseFixture
 
     public function loadData(ObjectManager $manager)
     {
-        $this->createMany(User::class, 25, function (User $user, int $count)
+        $this->createMany(User::class, 30, function (User $user, int $count)
         {
-            $user->setEmail($this->faker->email);
+            $user->setEmail($this->faker->email());
             $user->setPassword($this->_userPasswordHasher->hashPassword(
                 $user,
                 'password')
