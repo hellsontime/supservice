@@ -14,13 +14,15 @@ class F2_MessageFixtures extends BaseFixture
 
     public function __construct()
     {
+        parent::__construct();
+
         $this->faker = Factory::create();
     }
 
     public function loadData(ObjectManager $manager)
     {
-        for ($i = 0; $i < 10; $i++) {
-            $this->createMany(Message::class, 5, function (Message $message, int $count) use ($i)
+        for ($i = 0; $i < $this->number_of_users * $this->number_of_tickets_per_user; $i++) {
+            $this->createMany(Message::class, $this->number_of_messages_per_ticket, function (Message $message, int $count) use ($i)
             {
                 $ticketSupportId = $this->getReference(Ticket::class.'_'.$i)->getSupportId();
                 $ticketUserId = $this->getReference(Ticket::class.'_'.$i)->getUserId();
