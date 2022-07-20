@@ -1,10 +1,9 @@
 ---
-
-## Build an app
-
-1. Run <code>docker-compose up --build -d</code>.
-2. Open <code>php-cgi</code> container terminal and run:
- - <code>php bin/console doctrine:database:create --if-not-exists</code>
- - <code>php bin/console doctrine:scchema:create</code>
-
+## Build and run an application
+ - Copy <code>.env.example</code> file and rename it to <code>.env</code>.
+ - Run <code>docker-compose up --build -d</code>.
+## Populate the database with random data
+Open <code>supservice-core</code> container terminal and run:
+ - <code>php bin/console doctrine:fixtures:load</code>
+then press <code>y</code>.
 ---
